@@ -5,6 +5,9 @@ import Pagination from "../components/Pagination/Pagination";
 import { Box, CircularProgress } from "@mui/material";
 import Header from "../components/Header/Header";
 import { pagination } from "./api/productData";
+import { axiosRequest } from "../components/api/api";
+
+const productsEndpoint = "8000";
 
 export default function Home() {
   const [loader, setLoader] = useState(false);
@@ -21,17 +24,38 @@ export default function Home() {
 
   useEffect(() => {
     getProducts();
+    getProductAPI();
   }, [startQueryParam]);
+
+  async function getProductAPI() {
+    // setLoader(true);
+    try {
+      const response = await axiosRequest(
+        "get",
+        productsEndpoint,
+        undefined,
+        undefined
+      );
+      console.log(response.data, "Response structure");
+      setProducts(response.data);
+      // setLoader(false);
+    } catch (error) {
+      console.log(error);
+      // setLoader(false);
+    }
+  }
+
   return (
     <>
       {loader ? (
         <div>
           <Header setSearchValue={setSearchValue} />
-          <Products
+          {/* <Products
             products={products.filter((item) =>
               item.name.toLowerCase().includes(searchValue.toLowerCase())
             )}
-          />
+          /> */}
+          <Products products={products} />
           <Pagination
             setStartQueryParam={setStartQueryParam}
             startQueryParam={startQueryParam}

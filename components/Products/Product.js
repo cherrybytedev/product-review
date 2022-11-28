@@ -1,6 +1,7 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { Box, Grid, Card, CardMedia, Button, Typography } from "@mui/material";
-import ReviewModal from '../ReviewModal/ReviewModal'
+import ReviewModal from "../ReviewModal/ReviewModal";
+
 const Product = ({ product }) => {
   const [openModal, setOpenModal] = useState(false);
   const [value, setValue] = useState("No Review");
@@ -18,12 +19,12 @@ const Product = ({ product }) => {
   };
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
-      <Card sx={{boxShadow: 'none'}}>
+      <Card sx={{ boxShadow: "none" }}>
         <CardMedia
           sx={{ borderRadius: "15px" }}
           component="img"
           height="300"
-          image={product?.img}
+          image={product?.image}
           alt="green iguana"
         />
       </Card>
@@ -34,7 +35,7 @@ const Product = ({ product }) => {
             breakspaces="true"
             sx={{ fontWeight: "400", fontSize: "14px" }}
           >
-            {product?.name}
+            {product?.title}
           </Typography>
           <Typography variant="body2" sx={{ color: "red", fontWeight: "700" }}>
             PKR {product?.price}
@@ -47,8 +48,8 @@ const Product = ({ product }) => {
             borderRadius: "18px",
             width: "120px",
             height: "28px",
-            textTransform: 'none',
-            fontSize: '12px',
+            textTransform: "none",
+            fontSize: "12px",
             color: "white",
             "&:hover": {
               background: "#1b5e20",

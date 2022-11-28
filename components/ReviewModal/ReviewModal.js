@@ -97,29 +97,26 @@ export default function ReviewModal(props) {
         return;
       }
       let _error = { ...setpOneError };
-        _error.country = false;
-        _error.city = false;
-        _error.name = false;
-        _error.email = false;
-        setStepOneError(_error);
+      _error.country = false;
+      _error.city = false;
+      _error.name = false;
+      _error.email = false;
+      setStepOneError(_error);
     }
     if (activeStep === 1) {
       if (quality === 0) {
-        
         setStepTwoError(true);
         return;
       }
       if (availability === 0) {
-        
         setStepTwoError(true);
         return;
       }
       if (utility === 0) {
-        
         setStepTwoError(true);
         return;
       }
-      setStepTwoError(false)
+      setStepTwoError(false);
     }
     activeStep === 2 ? onClose(value) : setActiveStep((prev) => prev + 1);
   };
@@ -267,9 +264,9 @@ export default function ReviewModal(props) {
                   paddingY: 1.5,
                 }}
               >
-                <Grid container >
-                  <Grid item xs={12} sm={6} sx={{ textAlign: "left",}}>
-                    <Typography >Product Quality</Typography>
+                <Grid container>
+                  <Grid item xs={12} sm={6} sx={{ textAlign: "left" }}>
+                    <Typography>Product Quality</Typography>
                   </Grid>
                   <Grid item xs={12} sm={6} sx={{ textAlign: "right" }}>
                     <Rating
@@ -303,7 +300,6 @@ export default function ReviewModal(props) {
                     />
                   </Grid>
                 </Grid>
-                
               </Box>
               <Divider />
               <Box
@@ -328,11 +324,17 @@ export default function ReviewModal(props) {
                   </Grid>
                 </Grid>
               </Box>
-              { setpTwoError ?(<Grid container>
-                  <Grid item xs={12} sx={{ textAlign: "center", color: 'red' }}>
-                    <Typography>Please give your feedback on all aspects.</Typography>
+              {setpTwoError ? (
+                <Grid container>
+                  <Grid item xs={12} sx={{ textAlign: "center", color: "red" }}>
+                    <Typography>
+                      Please give your feedback on all aspects.
+                    </Typography>
                   </Grid>
-                </Grid>):<></>}
+                </Grid>
+              ) : (
+                <></>
+              )}
               <TextField
                 multiline
                 rows={3}
