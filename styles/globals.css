@@ -2,17 +2,18 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Roboto, sans-serif;
 }
 
 a {
   color: inherit;
   text-decoration: none;
 }
-
 * {
   box-sizing: border-box;
+}
+.container {
+  padding: 0 2rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +23,19 @@ a {
   body {
     color: white;
     background: black;
+  }
+}
+.height-alignment{
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: space-between;
+  height: 6rem;
+}
+
+@media screen and (max-width: 601px) {
+  .font-setting {
+    font-size: 30px;
   }
 }
