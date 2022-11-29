@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Products from "../components/Products/Products";
 import Pagination from "../components/Pagination/Pagination";
 import { Box, CircularProgress } from "@mui/material";
@@ -16,7 +15,7 @@ export default function Home() {
   const [searchValue, setSearchValue] = useState("");
 
   async function getProducts() {
-    const res = await pagination(8, startQueryParam).then((res) => {
+    await pagination(8, startQueryParam).then((res) => {
       setLoader(true);
       setProducts(res);
     });
@@ -28,7 +27,6 @@ export default function Home() {
   }, [startQueryParam]);
 
   async function getProductAPI() {
-    // setLoader(true);
     try {
       const response = await axiosRequest(
         "get",
@@ -38,10 +36,8 @@ export default function Home() {
       );
       console.log(response.data, "Response structure");
       setProducts(response.data);
-      // setLoader(false);
     } catch (error) {
       console.log(error);
-      // setLoader(false);
     }
   }
 
@@ -49,7 +45,7 @@ export default function Home() {
     <>
       {loader ? (
         <div>
-          <Header setSearchValue={setSearchValue} />
+          <Header searchValue={searchValue} setSearchValue={setSearchValue} />
           {/* <Products
             products={products.filter((item) =>
               item.name.toLowerCase().includes(searchValue.toLowerCase())

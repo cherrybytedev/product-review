@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ReviewConfirmation from "./ReviewConfirmation";
-import PropTypes from "prop-types";
 import {
   Button,
   DialogTitle,
@@ -29,6 +28,50 @@ const countries = [
     label: "India",
   },
 ];
+
+function DialogHeader({activeStep}){
+  return(
+    <>
+    {(activeStep !== 2) && (
+      <Stepper
+        activeStep={activeStep}
+        sx={{ width: "200px", marginY: 2, marginX: "auto" }}
+      >
+        <Step>
+          <StepLabel></StepLabel>
+        </Step>
+        <Step>
+          <StepLabel></StepLabel>
+        </Step>
+      </Stepper>
+    )}
+    {activeStep === 0 && (
+      <Box>
+        <Typography variant="h6" sx={{ fontWeight: "600" }}>
+          User Details
+        </Typography>
+        <Typography> Enter your details to submit review </Typography>
+      </Box>
+    )}
+    {activeStep === 1 && (
+      <Box>
+        <Typography variant="h6" sx={{ fontWeight: "600" }}>
+          Submit Your Reviews
+        </Typography>
+        <Typography>
+          How would you rate your experience with our product
+        </Typography>
+      </Box>
+    )}
+    {(activeStep !== 2) && (
+      <Divider
+        width="100"
+        sx={{ margin: "auto", marginTop: 2, background: "black" }}
+      />
+    )}
+  </>)
+}
+
 export default function ReviewModal(props) {
   const { onClose, value: valueProp, open, ...other } = props;
   const [value, setValue] = useState(valueProp);
@@ -102,7 +145,13 @@ export default function ReviewModal(props) {
       _error.email = false;
       setStepOneError(_error);
     }
+    if (activeStep === 1) {
+      if (utility === 0 || availability === 0 || quality === 0) {
+        setStepTwoError(true);
+        return;
+      }
       setStepTwoError(false);
+    }
     activeStep === 2 ? onClose(value) : setActiveStep((prev) => prev + 1);
   };
 
@@ -132,51 +181,11 @@ export default function ReviewModal(props) {
           },
         }}
       >
-        {!(activeStep === 2) && (
-          <Stepper
-            activeStep={activeStep}
-            sx={{ width: "200px", marginY: 2, marginX: "auto" }}
-          >
-            <Step sx={{}}>
-              <StepLabel></StepLabel>
-            </Step>
-            <Step>
-              <StepLabel></StepLabel>
-            </Step>
-          </Stepper>
-        )}
-        {activeStep === 0 && (
-          <Box>
-            <Typography variant="h6" sx={{ fontWeight: "600" }}>
-              {" "}
-              User Details{" "}
-            </Typography>
-            <Typography> Enter your details to submit review </Typography>
-          </Box>
-        )}
-        {activeStep === 1 && (
-          <Box>
-            <Typography variant="h6" sx={{ fontWeight: "600" }}>
-              {" "}
-              Submit Your Reviews{" "}
-            </Typography>
-            <Typography>
-              How would you rate your experience with our product
-            </Typography>
-          </Box>
-        )}
-        {!(activeStep === 2) && (
-          <Divider
-            width="100"
-            sx={{ margin: "auto", marginTop: 2, background: "black" }}
-          />
-        )}
+        <DialogHeader activeStep={activeStep}/>
       </DialogTitle>
       <DialogContent>
         <Box sx={{ paddingX: 3 }}>
-          {activeStep === 2 ? (
-            <ReviewConfirmation rating={handleTotalRating} />
-          ) : activeStep === 0 ? (
+          { activeStep === 0 && (
             <Box>
               <Grid container spacing={2} padding={2}>
                 <Grid item xs={12}>
@@ -239,7 +248,8 @@ export default function ReviewModal(props) {
                 </Grid>
               </Grid>
             </Box>
-          ) : (
+          ) }
+          { activeStep === 1 && (
             <Box maxWidth={470} sx={{ marginX: "auto" }}>
               <Box
                 sx={{
@@ -337,6 +347,9 @@ export default function ReviewModal(props) {
               />
             </Box>
           )}
+          {activeStep === 2 && (
+            <ReviewConfirmation rating={handleTotalRating} />
+          )}
         </Box>
       </DialogContent>
       <DialogActions sx={{ marginX: 2, marginY: 1 }}>
@@ -381,9 +394,3 @@ export default function ReviewModal(props) {
     </Dialog>
   );
 }
-
-ReviewModal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  value: PropTypes.string.isRequired,
-};
