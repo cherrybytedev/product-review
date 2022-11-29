@@ -14,6 +14,7 @@ const Dashboard = () => {
     proudctsQualityRating: [],
     proudctsUtilityRating: [],
     proudctsAvailabilityRating: [],
+    proudctsOverallRating: [],
   });
   useEffect(() => {
     getOverallRating();
@@ -32,9 +33,6 @@ const Dashboard = () => {
       _overAllRating.proudctsName = response.data.map(
         (product) => product.title
       );
-      _overAllRating.proudctsOverallRating = response.data.map(
-        (product) => product.overall_rating
-      );
       _overAllRating.proudctsQualityRating = response.data.map(
         (product) => product.quality_rating
       );
@@ -43,6 +41,9 @@ const Dashboard = () => {
       );
       _overAllRating.proudctsAvailabilityRating = response.data.map(
         (product) => product.availability_rating
+      );
+      _overAllRating.proudctsOverallRating = response.data.map(
+        (product) => product.overall_rating
       );
       setOverallRating(_overAllRating);
     } catch (error) {
@@ -78,7 +79,7 @@ const Dashboard = () => {
       labels: {
         trim: true,
         hideOverlappingLabels: false,
-      }
+      },
     },
     yaxis: {
       title: {},
@@ -87,8 +88,7 @@ const Dashboard = () => {
       opacity: 1,
     },
     tooltip: {
-      y: {
-      },
+      y: {},
     },
   };
   const lineChartOptions1 = {
@@ -127,7 +127,7 @@ const Dashboard = () => {
       labels: {
         trim: true,
         hideOverlappingLabels: false,
-      }
+      },
     },
   };
   const lineChartOptions2 = {
@@ -166,7 +166,7 @@ const Dashboard = () => {
       labels: {
         trim: true,
         hideOverlappingLabels: false,
-      }
+      },
     },
   };
   const columnChartSeries = [
