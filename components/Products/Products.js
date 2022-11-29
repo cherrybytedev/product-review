@@ -1,9 +1,7 @@
 import React from "react";
 import Product from "./Product";
-import { Grid } from "@mui/material";
-
+import { Grid, Typography } from "@mui/material";
 const Products = ({ products }) => {
-  console.log(products, "props");
   return (
     <>
       <Grid
@@ -12,10 +10,10 @@ const Products = ({ products }) => {
         sx={{ paddingX: "9px", marginY: 2, marginBottom: 5 }}
       >
         {products.length !== 0
-          ? products.map((product) => (
-              <Product product={product} key={product?.pid} />
+          ? products.map((product,index) => (
+              <Product product={product} key={index} />
             ))
-          : "No product found"}
+          : <Typography variant="h5" sx={{margin: 'auto'}}>No product found </Typography>}
       </Grid>
     </>
   );

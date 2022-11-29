@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Box } from "@mui/material";
-const Pagination = ({ setStartQueryParam, startQueryParam }) => {
+const Pagination = ({ setStartQueryParam, startQueryParam, pages }) => {
   return (
     <Box
       sx={{
@@ -15,16 +15,16 @@ const Pagination = ({ setStartQueryParam, startQueryParam }) => {
       <Button
         sx={{ color: 'black' }}
         onClick={() => setStartQueryParam((prev) => prev - 1)}
-        disabled={startQueryParam === 0 ? true : false}
+        disabled={startQueryParam === 1 ? true : false}
       >
         Back
       </Button>
       <div style={{ paddingTop: "11px" }}>
-        <span style={{ fontSize: "20px" ,fontWeight: '600'}}>{startQueryParam+ 1}</span>/3
+        <span style={{ fontSize: "20px" ,fontWeight: '600'}}>{startQueryParam}</span>/{pages}
       </div>
       <Button
         sx={{ color: "black" }}
-        disabled={startQueryParam === 2 ? true : false}
+        disabled={startQueryParam === pages ? true : false}
         onClick={() => setStartQueryParam((prev) => prev + 1)}
       >
         Next

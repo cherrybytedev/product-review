@@ -3,65 +3,69 @@ import Products from "../components/Products/Products";
 import Pagination from "../components/Pagination/Pagination";
 import { Box, CircularProgress } from "@mui/material";
 import Header from "../components/Header/Header";
-import { pagination } from "./api/productData";
 import { axiosRequest } from "../components/api/api";
 
-const productsEndpoint = "8000";
+const productsEndpoint = `8000/products`;
 
 export default function Home() {
   const [loader, setLoader] = useState(false);
-  const [startQueryParam, setStartQueryParam] = useState(0);
+  const [startQueryParam, setStartQueryParam] = useState(1);
   const [products, setProducts] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-
-  async function getProducts() {
-    await pagination(8, startQueryParam).then((res) => {
-      setLoader(true);
-      setProducts(res);
-    });
-  }
+  const [totalItems, setTotalItems] = useState("");
+  const pages = Math.ceil(totalItems/8)
 
   useEffect(() => {
-    getProducts();
-    getProductAPI();
-  }, [startQueryParam]);
+    setLoader(false);
+    getSearchedProductAPI();
+  }, [searchValue, startQueryParam]);
 
-  async function getProductAPI() {
+
+  async function getSearchedProductAPI() {
     try {
       const response = await axiosRequest(
         "get",
-        productsEndpoint,
+        `${productsEndpoint}/${searchValue}`,
         undefined,
-        undefined
+        {
+          title: searchValue,
+          page: startQueryParam,
+          size: 8,
+        }
       );
-      console.log(response.data, "Response structure");
-      setProducts(response.data);
+      setProducts(response.data.items);
+      setTotalItems(response.data.total);
+      setLoader(true);
     } catch (error) {
-      console.log(error);
+      setLoader(true);
+      alert("Something went wrong please try again later.");
     }
   }
 
   return (
     <>
-      {loader ? (
-        <div>
-          <Header searchValue={searchValue} setSearchValue={setSearchValue} />
-          {/* <Products
-            products={products.filter((item) =>
-              item.name.toLowerCase().includes(searchValue.toLowerCase())
-            )}
-          /> */}
+      <div>
+        <Header
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          setStartQueryParam={setStartQueryParam}
+        />
+          <Box sx={{minHeight:'75vh' }}>
+        {loader ? (
           <Products products={products} />
-          <Pagination
-            setStartQueryParam={setStartQueryParam}
-            startQueryParam={startQueryParam}
-          />
-        </div>
-      ) : (
-        <Box sx={{ display: "flex", justifyContent: "center", marginTop: 5 }}>
-          <CircularProgress sx={{ color: "#00B65E" }} />
+        ) : (
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 5 }}>
+            <CircularProgress sx={{ color: "#00B65E" }} />
+          </Box>
+        )}
+
         </Box>
-      )}
+        { pages !== 0 && <Pagination
+          setStartQueryParam={setStartQueryParam}
+          startQueryParam={startQueryParam}
+          pages={pages}
+        />}
+      </div>
     </>
   );
 }

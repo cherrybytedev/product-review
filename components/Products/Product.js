@@ -65,6 +65,7 @@ const Product = ({ product }) => {
           open={openModal}
           onClose={handleClose}
           value={value}
+          productID = {product.id}
         />
       </Box>
     </Grid>

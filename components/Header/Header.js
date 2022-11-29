@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import { Box, Typography, IconButton, Grid, TextField } from "@mui/material";
 import { Search } from "@mui/icons-material";
-const Header = ({ setSearchValue }) => {
+const Header = ({searchValue, setSearchValue,setStartQueryParam }) => {
   const { pathname } = useRouter();
-  const [search, setSearch] = useState("");
 
   return (
     <>
@@ -13,6 +12,7 @@ const Header = ({ setSearchValue }) => {
           display: "flex",
           alignItems: "center",
           minHeight: "70px",
+          marginTop: 1
         }}
       >
         <Grid container>
@@ -29,7 +29,7 @@ const Header = ({ setSearchValue }) => {
             sx={{ display: "flex", justifyContent: "right" }}
           >
             <TextField
-              value={search}
+              value={searchValue}
               sx={{
                 maxWidth: "320px",
                 "& .MuiOutlinedInput-root": {
@@ -39,8 +39,11 @@ const Header = ({ setSearchValue }) => {
                   paddingY: "10px",
                 },
               }}
-              onChange={pathname === "/"?(e) => {setSearch(e.target.value)
-                setSearchValue(e.target.value)}:(e)=>setSearch(e.target.value)}
+              onChange={pathname === "/"?(e) => {
+                setSearchValue(e.target.value)
+                setStartQueryParam(1)
+              }:
+                ()=>{}}
               placeholder="Search"
               fullWidth
             />
@@ -49,8 +52,8 @@ const Header = ({ setSearchValue }) => {
               type="button"
               sx={{ position: "absolute" }}
               onClick={pathname === "/"?() => {
-                setSearchValue(search);
-              }:()=>setSearch('')}
+                setSearchValue(searchValue);
+              }:()=>{}}
             >
               <Search />
             </IconButton>

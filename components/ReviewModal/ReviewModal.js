@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReviewConfirmation from "./ReviewConfirmation";
+import {axiosRequest} from "../api/api"
 import {
   Button,
   DialogTitle,
@@ -29,56 +30,60 @@ const countries = [
   },
 ];
 
-function DialogHeader({activeStep}){
-  return(
+const productsEndpoint = `8005/post`;
+
+function DialogHeader({ activeStep }) {
+  return (
     <>
-    {(activeStep !== 2) && (
-      <Stepper
-        activeStep={activeStep}
-        sx={{ width: "200px", marginY: 2, marginX: "auto" }}
-      >
-        <Step>
-          <StepLabel></StepLabel>
-        </Step>
-        <Step>
-          <StepLabel></StepLabel>
-        </Step>
-      </Stepper>
-    )}
-    {activeStep === 0 && (
-      <Box>
-        <Typography variant="h6" sx={{ fontWeight: "600" }}>
-          User Details
-        </Typography>
-        <Typography> Enter your details to submit review </Typography>
-      </Box>
-    )}
-    {activeStep === 1 && (
-      <Box>
-        <Typography variant="h6" sx={{ fontWeight: "600" }}>
-          Submit Your Reviews
-        </Typography>
-        <Typography>
-          How would you rate your experience with our product
-        </Typography>
-      </Box>
-    )}
-    {(activeStep !== 2) && (
-      <Divider
-        width="100"
-        sx={{ margin: "auto", marginTop: 2, background: "black" }}
-      />
-    )}
-  </>)
+      {activeStep !== 2 && (
+        <Stepper
+          activeStep={activeStep}
+          sx={{ width: "200px", marginY: 2, marginX: "auto" }}
+        >
+          <Step>
+            <StepLabel></StepLabel>
+          </Step>
+          <Step>
+            <StepLabel></StepLabel>
+          </Step>
+        </Stepper>
+      )}
+      {activeStep === 0 && (
+        <Box>
+          <Typography variant="h6" sx={{ fontWeight: "600" }}>
+            User Details
+          </Typography>
+          <Typography> Enter your details to submit review </Typography>
+        </Box>
+      )}
+      {activeStep === 1 && (
+        <Box>
+          <Typography variant="h6" sx={{ fontWeight: "600" }}>
+            Submit Your Reviews
+          </Typography>
+          <Typography>
+            How would you rate your experience with our product
+          </Typography>
+        </Box>
+      )}
+      {activeStep !== 2 && (
+        <Divider
+          width="100"
+          sx={{ margin: "auto", marginTop: 2, background: "black" }}
+        />
+      )}
+    </>
+  );
 }
 
 export default function ReviewModal(props) {
-  const { onClose, value: valueProp, open, ...other } = props;
+  const { onClose, value: valueProp, open, productID, ...other } = props;
   const [value, setValue] = useState(valueProp);
   const [activeStep, setActiveStep] = useState(0);
   const [quality, setQuality] = useState(0);
   const [utility, setUtility] = useState(0);
   const [availability, setAvailability] = useState(0);
+  const [overallRating, setOverallRating] = useState(0);
   const [comment, setComment] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -86,20 +91,43 @@ export default function ReviewModal(props) {
   const [country, setCountry] = useState("");
   const [setpOneError, setStepOneError] = useState({});
   const [setpTwoError, setStepTwoError] = useState(false);
-
   useEffect(() => {
     if (!open) {
       setValue(valueProp);
     }
   }, [valueProp, open]);
 
+  useEffect(()=>{
+    let rating = (quality + utility + availability) / 3
+    setOverallRating(Math.round(rating * 10 )/ 10) 
+  },[quality,availability,utility])
+
+  async function submitReview(productID) {
+    try {
+      const res = await axiosRequest(
+        "post",
+        productsEndpoint,
+        {
+          product_id: productID,
+          quality_rating: quality,
+          availability_rating: availability,
+          utility_rating: utility,
+          overall_rating: overallRating,
+        },
+        undefined
+      );
+    } catch (error) {
+      alert(
+        "Something went wrong while submitting your review.Please try later."
+      );
+    }
+  }
+
   const handleCancel = () => {
     setActiveStep(0);
     onClose();
   };
-  const handleTotalRating = () => {
-    return (quality + utility + availability) / 3;
-  };
+
   const nextStep = () => {
     if (activeStep === 0) {
       if (name.length === 0) {
@@ -151,6 +179,7 @@ export default function ReviewModal(props) {
         return;
       }
       setStepTwoError(false);
+      submitReview(productID);
     }
     activeStep === 2 ? onClose(value) : setActiveStep((prev) => prev + 1);
   };
@@ -181,11 +210,11 @@ export default function ReviewModal(props) {
           },
         }}
       >
-        <DialogHeader activeStep={activeStep}/>
+        <DialogHeader activeStep={activeStep} />
       </DialogTitle>
       <DialogContent>
         <Box sx={{ paddingX: 3 }}>
-          { activeStep === 0 && (
+          {activeStep === 0 && (
             <Box>
               <Grid container spacing={2} padding={2}>
                 <Grid item xs={12}>
@@ -248,8 +277,8 @@ export default function ReviewModal(props) {
                 </Grid>
               </Grid>
             </Box>
-          ) }
-          { activeStep === 1 && (
+          )}
+          {activeStep === 1 && (
             <Box maxWidth={470} sx={{ marginX: "auto" }}>
               <Box
                 sx={{
@@ -348,7 +377,7 @@ export default function ReviewModal(props) {
             </Box>
           )}
           {activeStep === 2 && (
-            <ReviewConfirmation rating={handleTotalRating} />
+            <ReviewConfirmation rating={overallRating} />
           )}
         </Box>
       </DialogContent>

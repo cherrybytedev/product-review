@@ -2,7 +2,6 @@ import axios from "axios";
 const baseURL = "http://sheeda.consoliads.com:";
 
 export const axiosRequest = async (method_, url_, body, params_) => {
-  console.log(url_, "url");
   const URL = baseURL + url_;
   const response = await axios({
     header: "accept: application/json",
