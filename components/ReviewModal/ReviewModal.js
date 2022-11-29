@@ -99,12 +99,12 @@ export default function ReviewModal(props) {
 
   useEffect(()=>{
     let rating = (quality + utility + availability) / 3
-    setOverallRating(Math.round(rating * 10 )/ 10) 
+    setOverallRating(Math.round(rating * 10 )/ 10)
   },[quality,availability,utility])
 
   async function submitReview(productID) {
     try {
-      const res = await axiosRequest(
+         await axiosRequest(
         "post",
         productsEndpoint,
         {
