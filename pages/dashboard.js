@@ -175,7 +175,7 @@ const Dashboard = () => {
   return (
     <>
       <Header />
-      <Grid container padding={5}>
+      <Grid container >
         <Grid item xs={12} paddingBottom={5}>
           <Chart
             options={columnChartOptions}
@@ -190,7 +190,7 @@ const Dashboard = () => {
             type="line"
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid xs={12} sm={6}>
           <Chart
             options={lineChartOptions2}
             series={lineChartSeries2}

@@ -55,7 +55,6 @@ export default function ReviewModal(props) {
     onClose();
   };
   const handleTotalRating = () => {
-    console.log((quality + utility + availability) / 3);
     return (quality + utility + availability) / 3;
   };
   const nextStep = () => {
@@ -103,21 +102,7 @@ export default function ReviewModal(props) {
       _error.email = false;
       setStepOneError(_error);
     }
-    if (activeStep === 1) {
-      if (quality === 0) {
-        setStepTwoError(true);
-        return;
-      }
-      if (availability === 0) {
-        setStepTwoError(true);
-        return;
-      }
-      if (utility === 0) {
-        setStepTwoError(true);
-        return;
-      }
       setStepTwoError(false);
-    }
     activeStep === 2 ? onClose(value) : setActiveStep((prev) => prev + 1);
   };
 

@@ -3,7 +3,6 @@ export let pagination = async (limit, offset, search) => {
   if (offset !== 0) {
       index = limit * offset
   }
-  console.log(index, limit)
   let products = [
       {
           pid: 1,

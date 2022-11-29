@@ -40,7 +40,7 @@ const Header = ({ setSearchValue }) => {
                 },
               }}
               onChange={pathname === "/"?(e) => {setSearch(e.target.value)
-                setSearchValue(e.target.value)}:''}
+                setSearchValue(e.target.value)}:(e)=>setSearch(e.target.value)}
               placeholder="Search"
               fullWidth
             />
@@ -50,7 +50,7 @@ const Header = ({ setSearchValue }) => {
               sx={{ position: "absolute" }}
               onClick={pathname === "/"?() => {
                 setSearchValue(search);
-              }:()=>setSearch()}
+              }:()=>setSearch('')}
             >
               <Search />
             </IconButton>
