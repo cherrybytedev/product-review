@@ -37,6 +37,7 @@ const Header = ({searchValue, setSearchValue,setStartQueryParam }) => {
                 },
                 "& .MuiOutlinedInput-input": {
                   paddingY: "10px",
+                  paddingRight: '60px'
                 },
               }}
               onChange={pathname === "/"?(e) => {
@@ -50,13 +51,22 @@ const Header = ({searchValue, setSearchValue,setStartQueryParam }) => {
 
             <IconButton
               type="button"
-              sx={{ position: "absolute" }}
+              sx={{ position: "absolute", marginTop: '2px' }}
               onClick={pathname === "/"?() => {
                 setSearchValue(searchValue);
               }:()=>{}}
             >
               <Search />
             </IconButton>
+            {searchValue && <IconButton
+              type="button"
+              sx={{ position: "absolute", marginRight: 4 }}
+              onClick={() => {
+                setSearchValue('');
+              }}
+            >
+              x
+            </IconButton>}
           </Grid>
         </Grid>
       </Box>
