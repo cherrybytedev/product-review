@@ -21,7 +21,7 @@ const Product = ({ product }) => {
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <Card sx={{ boxShadow: "none",borderRadius: "15px", backgroundColor: '#A5A5A533'}}>
         <CardMedia
-          sx={{ borderRadius: "15px", backgroundColor: '#A5A5A533'  }}
+          sx={{ borderRadius: "15px", backgroundColor: '#A5A5A533',objectFit:'contain'  }}
           component="img"
           height="300"
           image={product?.image}
