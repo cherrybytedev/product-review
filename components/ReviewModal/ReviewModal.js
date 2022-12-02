@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReviewConfirmation from "./ReviewConfirmation";
-import {axiosRequest} from "../api/api"
+import { axiosRequest } from "../api/api";
 import {
   Button,
   DialogTitle,
@@ -97,14 +97,14 @@ export default function ReviewModal(props) {
     }
   }, [valueProp, open]);
 
-  useEffect(()=>{
-    let rating = (quality + utility + availability) / 3
-    setOverallRating(Math.round(rating * 10 )/ 10)
-  },[quality,availability,utility])
+  useEffect(() => {
+    let rating = (quality + utility + availability) / 3;
+    setOverallRating(Math.round(rating * 10) / 10);
+  }, [quality, availability, utility]);
 
   async function submitReview(productID) {
     try {
-         await axiosRequest(
+      await axiosRequest(
         "post",
         productsEndpoint,
         {
@@ -128,6 +128,7 @@ export default function ReviewModal(props) {
     onClose();
   };
 
+
   const nextStep = () => {
     if (activeStep === 0) {
       if (name.length === 0) {
@@ -138,6 +139,18 @@ export default function ReviewModal(props) {
         _error.email = false;
         setStepOneError(_error);
         return;
+      }else {
+        if (/^[a-zA-Z]+$/.test(name)) {
+          let _error = { ...setpOneError };
+        _error.name = false;
+          setStepOneError(_error);
+          
+        }else{
+          let _error = { ...setpOneError };
+        _error.name = true;
+          setStepOneError(_error);
+          return;
+        }
       }
       if (email.length === 0) {
         let _error = { ...setpOneError };
@@ -147,6 +160,18 @@ export default function ReviewModal(props) {
         _error.email = true;
         setStepOneError(_error);
         return;
+      } else {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+          let _error = { ...setpOneError };
+        _error.email = false;
+          setStepOneError(_error);
+      }else{
+          let _error = { ...setpOneError };
+        _error.email = true;
+          setStepOneError(_error);
+          return;
+        }
+
       }
       if (city.length === 0) {
         let _error = { ...setpOneError };
@@ -156,6 +181,17 @@ export default function ReviewModal(props) {
         _error.email = false;
         setStepOneError(_error);
         return;
+      }else {
+        if (/^[a-zA-Z]+$/.test(city)) {
+          let _error = { ...setpOneError };
+        _error.city = false;
+          setStepOneError(_error);
+        }else{
+          let _error = { ...setpOneError };
+        _error.city = true;
+          setStepOneError(_error);
+          return;
+        }
       }
       if (country.length === 0) {
         let _error = { ...setpOneError };
@@ -227,6 +263,9 @@ export default function ReviewModal(props) {
                     onChange={(e) => setName(e.target.value)}
                     fullWidth
                     error={setpOneError?.name ? true : false}
+                    helperText={
+                      setpOneError?.name ? "Enter your name. Alphabets only." : ""
+                    }
                     required
                   />
                 </Grid>
@@ -239,6 +278,9 @@ export default function ReviewModal(props) {
                     variant="outlined"
                     onChange={(e) => setEmail(e.target.value)}
                     error={setpOneError?.email ? true : false}
+                    helperText={
+                      setpOneError?.email ? "Please enter a valid email." : ""
+                    }
                     fullWidth
                     required
                   />
@@ -253,6 +295,9 @@ export default function ReviewModal(props) {
                     onChange={(e) => setCity(e.target.value)}
                     fullWidth
                     error={setpOneError?.city ? true : false}
+                    helperText={
+                      setpOneError?.city ? "Enter your city. Alphabets only." : ""
+                    }
                     required
                   />
                 </Grid>
@@ -266,6 +311,9 @@ export default function ReviewModal(props) {
                     onChange={(e) => setCountry(e.target.value)}
                     fullWidth
                     error={setpOneError?.country ? true : false}
+                    helperText={
+                      setpOneError?.country ? "Please select country." : ""
+                    }
                     required
                   >
                     {countries.map((option) => (
@@ -376,9 +424,7 @@ export default function ReviewModal(props) {
               />
             </Box>
           )}
-          {activeStep === 2 && (
-            <ReviewConfirmation rating={overallRating} />
-          )}
+          {activeStep === 2 && <ReviewConfirmation rating={overallRating} />}
         </Box>
       </DialogContent>
       <DialogActions sx={{ marginX: 2, marginY: 1 }}>

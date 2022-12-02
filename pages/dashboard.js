@@ -5,10 +5,10 @@ import { Grid } from "@mui/material";
 import { axiosRequest } from "../components/api/api";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
-
 const productsEndpoint = `8005/overall_rating`;
 
 const Dashboard = () => {
+  const [searchValue, setSearchValue] = useState('');
   const [overallRating, setOverallRating] = useState({
     proudctsName: [],
     proudctsQualityRating: [],
@@ -201,7 +201,7 @@ const Dashboard = () => {
   ];
   return (
     <>
-      <Header />
+      <Header searchValue={searchValue} setSearchValue={setSearchValue} setStartQueryParam={()=>{}} />
       <Grid container>
         <Grid item xs={12} paddingBottom={5}>
           <Chart

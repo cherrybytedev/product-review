@@ -3,6 +3,7 @@ import Products from "../components/Products/Products";
 import Pagination from "../components/Pagination/Pagination";
 import { Box, CircularProgress } from "@mui/material";
 import Header from "../components/Header/Header";
+import { useRouter } from "next/router";
 import { axiosRequest } from "../components/api/api";
 
 const productsEndpoint = `8000/products`;
@@ -13,13 +14,15 @@ export default function Home() {
   const [products, setProducts] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [totalItems, setTotalItems] = useState("");
-  const pages = Math.ceil(totalItems/8)
+  const pages = Math.ceil(totalItems / 8);
+  const { pathname } = useRouter();
 
   useEffect(() => {
-    setLoader(false);
-    getSearchedProductAPI();
+    if (pathname === "/") {
+      setLoader(false);
+      getSearchedProductAPI();
+    }
   }, [searchValue, startQueryParam]);
-
 
   async function getSearchedProductAPI() {
     try {
@@ -50,21 +53,24 @@ export default function Home() {
           setSearchValue={setSearchValue}
           setStartQueryParam={setStartQueryParam}
         />
-          <Box sx={{minHeight:'75vh' }}>
-        {loader ? (
-          <Products products={products} />
-        ) : (
-          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 5 }}>
-            <CircularProgress sx={{ color: "#00B65E" }} />
-          </Box>
-        )}
-
+        <Box sx={{ minHeight: "75vh" }}>
+          {loader ? (
+            <Products products={products} />
+          ) : (
+            <Box
+              sx={{ display: "flex", justifyContent: "center", marginTop: 5 }}
+            >
+              <CircularProgress sx={{ color: "#00B65E" }} />
+            </Box>
+          )}
         </Box>
-        { pages !== 0 && <Pagination
-          setStartQueryParam={setStartQueryParam}
-          startQueryParam={startQueryParam}
-          pages={pages}
-        />}
+        {pages !== 0 && (
+          <Pagination
+            setStartQueryParam={setStartQueryParam}
+            startQueryParam={startQueryParam}
+            pages={pages}
+          />
+        )}
       </div>
     </>
   );

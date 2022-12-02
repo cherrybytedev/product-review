@@ -1,10 +1,14 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { useRouter } from "next/router";
 import { Box, Typography, IconButton, Grid, TextField } from "@mui/material";
 import { Search } from "@mui/icons-material";
-const Header = ({searchValue, setSearchValue,setStartQueryParam }) => {
+const Header = ({searchValue , setSearchValue,setStartQueryParam }) => {
   const { pathname } = useRouter();
+  const [isSearching, setIsSearching] = useState(false)
 
+  useEffect(() => {
+    searchValue.length !== 0 ? setIsSearching(true): setIsSearching(false)
+  }, [searchValue]);
   return (
     <>
       <Box
@@ -40,11 +44,10 @@ const Header = ({searchValue, setSearchValue,setStartQueryParam }) => {
                   paddingRight: '60px'
                 },
               }}
-              onChange={pathname === "/"?(e) => {
+              onChange={(e) => {
                 setSearchValue(e.target.value)
                 setStartQueryParam(1)
-              }:
-                ()=>{}}
+              }}
               placeholder="Search"
               fullWidth
             />
@@ -52,17 +55,18 @@ const Header = ({searchValue, setSearchValue,setStartQueryParam }) => {
             <IconButton
               type="button"
               sx={{ position: "absolute", marginTop: '2px' }}
-              onClick={pathname === "/"?() => {
+              onClick={() => {
                 setSearchValue(searchValue);
-              }:()=>{}}
+              }}
             >
               <Search />
             </IconButton>
-            {searchValue && <IconButton
+            {isSearching && <IconButton
               type="button"
-              sx={{ position: "absolute", marginRight: 4 }}
+              sx={{ position: "absolute", marginRight: 4,marginTop: '-2px' }}
               onClick={() => {
                 setSearchValue('');
+                setIsSearching(false)
               }}
             >
               x
