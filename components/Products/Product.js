@@ -18,9 +18,25 @@ const Product = ({ product }) => {
   };
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
+<<<<<<< Updated upstream
       <Card sx={{boxShadow: 'none'}}>
         <CardMedia
           sx={{ borderRadius: "15px" }}
+=======
+      <Card
+        sx={{
+          boxShadow: "none",
+          borderRadius: "15px",
+        }}
+      >
+        <CardMedia
+          sx={{
+            borderRadius: "15px",
+            objectFit: "contain",
+            paddingY: 3,
+            backgroundColor: "#A5A5A533",
+          }}
+>>>>>>> Stashed changes
           component="img"
           height="300"
           image={product?.img}
@@ -64,6 +80,10 @@ const Product = ({ product }) => {
           open={openModal}
           onClose={handleClose}
           value={value}
+<<<<<<< Updated upstream
+=======
+          productID={product.id}
+>>>>>>> Stashed changes
         />
       </Box>
     </Grid>
