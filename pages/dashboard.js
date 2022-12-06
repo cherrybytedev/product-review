@@ -3,8 +3,10 @@ import dynamic from "next/dynamic";
 import Header from "../components/Header/Header";
 import { Grid, Box, CircularProgress } from "@mui/material";
 import { axiosRequest } from "../components/api/api";
+
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 const productsEndpoint = `8005/overall_rating`;
+
 const Dashboard = () => {
   const [searchValue, setSearchValue] = useState("");
   const [loader, setLoader] = useState(true);
@@ -15,10 +17,10 @@ const Dashboard = () => {
     proudctsAvailabilityRating: [],
     proudctsOverallRating: [],
   });
-
   useEffect(() => {
     getOverallRating();
   }, []);
+
   async function getOverallRating() {
     try {
       const response = await axiosRequest(
@@ -27,6 +29,7 @@ const Dashboard = () => {
         undefined,
         undefined
       );
+
       const _overAllRating = {};
       _overAllRating.proudctsName = response.data.map(
         (product) => product.title
@@ -113,7 +116,7 @@ const Dashboard = () => {
     colors: ["#3F4CEC"],
     grid: {
       row: {
-        colors: ["transparent", "transparent"],
+        colors: ["transparent", "transparent"], // takes an array which will be repeated on columns
         opacity: 0.5,
       },
     },
@@ -148,7 +151,7 @@ const Dashboard = () => {
     colors: ["#00B65E"],
     grid: {
       row: {
-        colors: ["transparent", "transparent"],
+        colors: ["transparent", "transparent"], // takes an array which will be repeated on columns
         opacity: 0.5,
       },
     },
@@ -199,7 +202,6 @@ const Dashboard = () => {
         </Box>
       ) : (
         <Grid container>
-          {console.log("Grid got called")}
           <Grid item xs={12} paddingBottom={5} sx={{}}>
             <Chart
               options={columnChartOptions}
@@ -226,4 +228,5 @@ const Dashboard = () => {
     </>
   );
 };
+
 export default Dashboard;
