@@ -199,7 +199,6 @@
         </Box>
         ) : (
         <Grid container>
-          {console.log("Grid got called")}
             <Grid item xs={12} paddingBottom={5} sx={{}}>
               <Chart
                 options={columnChartOptions}
