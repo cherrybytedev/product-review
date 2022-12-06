@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Header from "../components/Header/Header";
-import { Grid } from "@mui/material";
+import { Grid, Box, CircularProgress } from "@mui/material";
 import { axiosRequest } from "../components/api/api";
-
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 const productsEndpoint = `8005/overall_rating`;
-
 const Dashboard = () => {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
+  const [loader, setLoader] = useState(true);
   const [overallRating, setOverallRating] = useState({
     proudctsName: [],
     proudctsQualityRating: [],
@@ -16,10 +15,10 @@ const Dashboard = () => {
     proudctsAvailabilityRating: [],
     proudctsOverallRating: [],
   });
+
   useEffect(() => {
     getOverallRating();
   }, []);
-
   async function getOverallRating() {
     try {
       const response = await axiosRequest(
@@ -28,7 +27,6 @@ const Dashboard = () => {
         undefined,
         undefined
       );
-
       const _overAllRating = {};
       _overAllRating.proudctsName = response.data.map(
         (product) => product.title
@@ -46,6 +44,7 @@ const Dashboard = () => {
         (product) => product.overall_rating
       );
       setOverallRating(_overAllRating);
+      setLoader(false);
     } catch (error) {
       alert("Something went wrong please try again later.");
     }
@@ -75,11 +74,7 @@ const Dashboard = () => {
     },
     colors: ["#FFB82C", "#00B65E", "#00CBCB", "#3F4CEC"],
     xaxis: {
-      categories: overallRating?.proudctsName,
-      labels: {
-        trim: true,
-        hideOverlappingLabels: false,
-      },
+      categories: overallRating.proudctsName,
     },
     yaxis: {
       title: {},
@@ -118,16 +113,12 @@ const Dashboard = () => {
     colors: ["#3F4CEC"],
     grid: {
       row: {
-        colors: ["transparent", "transparent"], // takes an array which will be repeated on columns
+        colors: ["transparent", "transparent"],
         opacity: 0.5,
       },
     },
     xaxis: {
-      categories: overallRating?.proudctsName,
-      labels: {
-        trim: true,
-        hideOverlappingLabels: false,
-      },
+      categories: overallRating.proudctsName,
     },
   };
   const lineChartOptions2 = {
@@ -157,16 +148,12 @@ const Dashboard = () => {
     colors: ["#00B65E"],
     grid: {
       row: {
-        colors: ["transparent", "transparent"], // takes an array which will be repeated on columns
+        colors: ["transparent", "transparent"],
         opacity: 0.5,
       },
     },
     xaxis: {
-      categories: overallRating?.proudctsName,
-      labels: {
-        trim: true,
-        hideOverlappingLabels: false,
-      },
+      categories: overallRating.proudctsName,
     },
   };
   const columnChartSeries = [
@@ -189,44 +176,54 @@ const Dashboard = () => {
   ];
   const lineChartSeries1 = [
     {
-      name: "Quality Rating",
+      name: "Product Utility",
       data: overallRating?.proudctsUtilityRating,
     },
   ];
   const lineChartSeries2 = [
     {
-      name: "Utility Rating",
+      name: "Product Quality",
       data: overallRating?.proudctsQualityRating,
     },
   ];
   return (
     <>
-      <Header searchValue={searchValue} setSearchValue={setSearchValue} setStartQueryParam={()=>{}} />
-      <Grid container>
-        <Grid item xs={12} paddingBottom={5}>
-          <Chart
-            options={columnChartOptions}
-            series={columnChartSeries}
-            type="bar"
-          />
+      <Header
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        setStartQueryParam={() => {}}
+      />
+      {loader ? (
+        <Box sx={{ display: "flex", justifyContent: "center", marginTop: 5 }}>
+          <CircularProgress sx={{ color: "#00B65E" }} />
+        </Box>
+      ) : (
+        <Grid container>
+          {console.log("Grid got called")}
+          <Grid item xs={12} paddingBottom={5} sx={{}}>
+            <Chart
+              options={columnChartOptions}
+              series={columnChartSeries}
+              type="bar"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Chart
+              options={lineChartOptions1}
+              series={lineChartSeries1}
+              type="line"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Chart
+              options={lineChartOptions2}
+              series={lineChartSeries2}
+              type="line"
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Chart
-            options={lineChartOptions1}
-            series={lineChartSeries1}
-            type="line"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Chart
-            options={lineChartOptions2}
-            series={lineChartSeries2}
-            type="line"
-          />
-        </Grid>
-      </Grid>
+      )}
     </>
   );
 };
-
 export default Dashboard;
