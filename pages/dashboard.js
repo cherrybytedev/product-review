@@ -78,6 +78,11 @@ const Dashboard = () => {
     colors: ["#FFB82C", "#00B65E", "#00CBCB", "#3F4CEC"],
     xaxis: {
       categories: overallRating.proudctsName,
+      labels: {
+        rotateAlways: true,
+        hideOverlappingLabels: false,
+        trim: true,
+      },
     },
     yaxis: {
       title: {},
@@ -110,18 +115,26 @@ const Dashboard = () => {
       size: 5,
     },
     title: {
-      text: "Product Quality",
+      text: "Product Utility",
       align: "left",
     },
     colors: ["#3F4CEC"],
     grid: {
       row: {
-        colors: ["transparent", "transparent"], // takes an array which will be repeated on columns
+        colors: ["transparent", "transparent"],
         opacity: 0.5,
       },
     },
     xaxis: {
       categories: overallRating.proudctsName,
+      labels: {
+        rotateAlways: true,
+        trim: true,
+        hideOverlappingLabels: false,
+      },
+    },
+    tooltip: {
+      y: {},
     },
   };
   const lineChartOptions2 = {
@@ -145,18 +158,23 @@ const Dashboard = () => {
       size: 5,
     },
     title: {
-      text: "Product Utility",
+      text: "Product Quality",
       align: "left",
     },
     colors: ["#00B65E"],
     grid: {
       row: {
-        colors: ["transparent", "transparent"], // takes an array which will be repeated on columns
+        colors: ["transparent", "transparent"],
         opacity: 0.5,
       },
     },
     xaxis: {
       categories: overallRating.proudctsName,
+      labels: {
+        rotateAlways: true,
+        hideOverlappingLabels: false,
+        trim: true,
+      },
     },
   };
   const columnChartSeries = [
