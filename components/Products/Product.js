@@ -19,15 +19,27 @@ const Product = ({ product }) => {
   };
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
-      <Card sx={{ boxShadow: "none",borderRadius: "15px", backgroundColor: '#A5A5A533'}}>
+      <Card
+        sx={{
+          boxShadow: "none",
+          borderRadius: "15px",
+          backgroundColor: "#A5A5A533",
+        }}
+      >
         <CardMedia
-          sx={{ borderRadius: "15px", backgroundColor: '#A5A5A533',objectFit:'contain', paddingY:3  }}
+          sx={{
+            borderRadius: "15px",
+            backgroundColor: "#A5A5A533",
+            objectFit: "contain",
+            paddingY: 3,
+          }}
           component="img"
           height="300"
           image={product?.image}
           alt="green iguana"
         />
       </Card>
+
       <Box className="height-alignment">
         <Box>
           <Typography
@@ -35,10 +47,10 @@ const Product = ({ product }) => {
             breakspaces="true"
             sx={{ fontWeight: "400", fontSize: "14px" }}
           >
-            {product?.title}
+            /////place required code here///////
           </Typography>
           <Typography variant="body2" sx={{ color: "red", fontWeight: "700" }}>
-            PKR {product?.price}
+            /////place required code here///////
           </Typography>
         </Box>
 
@@ -55,17 +67,12 @@ const Product = ({ product }) => {
               background: "#1b5e20",
             },
           }}
-          onClick={handleClickListItem}
+          /////place required code here use onClick///////
         >
           Submit Review
         </Button>
         <ReviewModal
-          id="review-modal"
-          keepMounted
-          open={openModal}
-          onClose={handleClose}
-          value={value}
-          productID = {product.id}
+        ///////place your required code here/////
         />
       </Box>
     </Grid>

@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Box, Typography, IconButton, Grid, TextField } from "@mui/material";
 import { Search } from "@mui/icons-material";
-const Header = ({searchValue , setSearchValue,setStartQueryParam }) => {
+const Header = ({ searchValue, setSearchValue, setStartQueryParam }) => {
   const { pathname } = useRouter();
-  const [isSearching, setIsSearching] = useState(false)
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
-    searchValue.length !== 0 ? setIsSearching(true): setIsSearching(false)
+    searchValue.length !== 0 ? setIsSearching(true) : setIsSearching(false);
   }, [searchValue]);
   return (
     <>
@@ -16,12 +16,16 @@ const Header = ({searchValue , setSearchValue,setStartQueryParam }) => {
           display: "flex",
           alignItems: "center",
           minHeight: "70px",
-          marginTop: 1
+          marginTop: 1,
         }}
       >
         <Grid container>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6" paddingBottom={1} sx={{fontWeight: '600'}}>
+            <Typography
+              variant="h6"
+              paddingBottom={1}
+              sx={{ fontWeight: "600" }}
+            >
               {pathname === "/" && "Product Review & Feedback System"}
               {pathname === "/dashboard" && "Dashboard"}
             </Typography>
@@ -41,12 +45,12 @@ const Header = ({searchValue , setSearchValue,setStartQueryParam }) => {
                 },
                 "& .MuiOutlinedInput-input": {
                   paddingY: "10px",
-                  paddingRight: '60px'
+                  paddingRight: "60px",
                 },
               }}
               onChange={(e) => {
-                setSearchValue(e.target.value)
-                setStartQueryParam(1)
+                setSearchValue(e.target.value);
+                setStartQueryParam(1);
               }}
               placeholder="Search"
               fullWidth
@@ -54,23 +58,25 @@ const Header = ({searchValue , setSearchValue,setStartQueryParam }) => {
 
             <IconButton
               type="button"
-              sx={{ position: "absolute", marginTop: '2px' }}
+              sx={{ position: "absolute", marginTop: "2px" }}
               onClick={() => {
-                setSearchValue(searchValue);
+                setSearchValue(); ////pass data here////);
               }}
             >
               <Search />
             </IconButton>
-            {isSearching && <IconButton
-              type="button"
-              sx={{ position: "absolute", marginRight: 4,marginTop: '-2px' }}
-              onClick={() => {
-                setSearchValue('');
-                setIsSearching(false)
-              }}
-            >
-              x
-            </IconButton>}
+            {isSearching && (
+              <IconButton
+                type="button"
+                sx={{ position: "absolute", marginRight: 4, marginTop: "-2px" }}
+                onClick={() => {
+                  setSearchValue("");
+                  setIsSearching(false);
+                }}
+              >
+                x
+              </IconButton>
+            )}
           </Grid>
         </Grid>
       </Box>

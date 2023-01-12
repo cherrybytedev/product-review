@@ -9,11 +9,13 @@ const Products = ({ products }) => {
         spacing={4}
         sx={{ paddingX: "9px", marginY: 2, marginBottom: 5 }}
       >
-        {products.length !== 0
-          ? products.map((product,index) => (
-              <Product product={product} key={index} />
-            ))
-          : <Typography variant="h5" sx={{margin: 'auto'}}>No product found </Typography>}
+        {products.length !== 0 ? (
+          "" /////map data here//////}""
+        ) : (
+          <Typography variant="h5" sx={{ margin: "auto" }}>
+            ////response if data note found////////{" "}
+          </Typography>
+        )}
       </Grid>
     </>
   );

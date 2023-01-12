@@ -108,11 +108,7 @@ export default function ReviewModal(props) {
         "post",
         productsEndpoint,
         {
-          product_id: productID,
-          quality_rating: quality,
-          availability_rating: availability,
-          utility_rating: utility,
-          overall_rating: overallRating,
+          //////////////Fill the ody here/////////
         },
         undefined
       );
@@ -128,7 +124,6 @@ export default function ReviewModal(props) {
     onClose();
   };
 
-
   const nextStep = () => {
     if (activeStep === 0) {
       if (name.length === 0) {
@@ -139,15 +134,14 @@ export default function ReviewModal(props) {
         _error.email = false;
         setStepOneError(_error);
         return;
-      }else {
-        if (/^[a-zA-Z]+$/.test(name)) {
+      } else {
+        if (/^[a-zA-Z][a-zA-Z ]+$/.test(name)) {
           let _error = { ...setpOneError };
-        _error.name = false;
+          _error.name = false;
           setStepOneError(_error);
-          
-        }else{
+        } else {
           let _error = { ...setpOneError };
-        _error.name = true;
+          _error.name = true;
           setStepOneError(_error);
           return;
         }
@@ -161,17 +155,17 @@ export default function ReviewModal(props) {
         setStepOneError(_error);
         return;
       } else {
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        if ("write code here") {
+          //////write regix here/////////////test(email)) {
           let _error = { ...setpOneError };
-        _error.email = false;
+          _error.email = false;
           setStepOneError(_error);
-      }else{
+        } else {
           let _error = { ...setpOneError };
-        _error.email = true;
+          _error.email = true;
           setStepOneError(_error);
           return;
         }
-
       }
       if (city.length === 0) {
         let _error = { ...setpOneError };
@@ -181,14 +175,14 @@ export default function ReviewModal(props) {
         _error.email = false;
         setStepOneError(_error);
         return;
-      }else {
+      } else {
         if (/^[a-zA-Z]+$/.test(city)) {
           let _error = { ...setpOneError };
-        _error.city = false;
+          _error.city = false;
           setStepOneError(_error);
-        }else{
+        } else {
           let _error = { ...setpOneError };
-        _error.city = true;
+          _error.city = true;
           setStepOneError(_error);
           return;
         }
@@ -231,7 +225,7 @@ export default function ReviewModal(props) {
         },
       }}
       maxWidth="sm"
-      open={open}
+      open={""} /////set state here/////}
       {...other}
     >
       <DialogTitle
@@ -246,7 +240,8 @@ export default function ReviewModal(props) {
           },
         }}
       >
-        <DialogHeader activeStep={activeStep} />
+        <DialogHeader activeStep={""} />
+        /////set code here
       </DialogTitle>
       <DialogContent>
         <Box sx={{ paddingX: 3 }}>
@@ -264,7 +259,9 @@ export default function ReviewModal(props) {
                     fullWidth
                     error={setpOneError?.name ? true : false}
                     helperText={
-                      setpOneError?.name ? "Enter your name. Alphabets only." : ""
+                      setpOneError?.name
+                        ? "Enter your name. Alphabets only."
+                        : ""
                     }
                     required
                   />
@@ -296,7 +293,9 @@ export default function ReviewModal(props) {
                     fullWidth
                     error={setpOneError?.city ? true : false}
                     helperText={
-                      setpOneError?.city ? "Enter your city. Alphabets only." : ""
+                      setpOneError?.city
+                        ? "Enter your city. Alphabets only."
+                        : ""
                     }
                     required
                   />
