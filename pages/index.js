@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Products from "../components/Products/Products";
 import Pagination from "../components/Pagination/Pagination";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Button, Typography } from "@mui/material";
 import Header from "../components/Header/Header";
 import { useRouter } from "next/router";
 import { axiosRequest } from "../components/api/api";
@@ -16,7 +16,7 @@ export default function Home() {
   const [totalItems, setTotalItems] = useState("");
   const pages = Math.ceil(totalItems / 8);
   const { pathname } = useRouter();
-
+  const router = useRouter();
   useEffect(() => {
     if (pathname === "/") {
       setLoader(false);
@@ -28,17 +28,13 @@ export default function Home() {
     try {
       const response = await axiosRequest(
         "get",
-        `${productsEndpoint}/${searchValue}`,
-        undefined,
+        /////add api route/////
+        /// Write body here if needed else write “undefined”////,
         {
-          title: searchValue,
-          page: startQueryParam,
-          size: 8,
+          ////Write required params here////
         }
       );
-      setProducts(response.data.items);
-      setTotalItems(response.data.total);
-      setLoader(true);
+      ///// update your state here with repose data//////
     } catch (error) {
       setLoader(true);
       alert("Something went wrong please try again later.");
@@ -53,6 +49,24 @@ export default function Home() {
           setSearchValue={setSearchValue}
           setStartQueryParam={setStartQueryParam}
         />
+        <Button
+          variant="contained"
+          sx={{
+            background: "green",
+            color: "white",
+            borderColor: "green",
+            "&.MuiButton-root:hover": {
+              background: "green",
+              color: "white",
+              borderColor: "green",
+            },
+          }}
+          onClick={() => {
+            ""; /////code here////
+          }}
+        >
+          Dashboard
+        </Button>
         <Box sx={{ minHeight: "75vh" }}>
           {loader ? (
             <Products products={products} />

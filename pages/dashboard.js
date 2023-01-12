@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Header from "../components/Header/Header";
-import { Grid, Box, CircularProgress } from "@mui/material";
+import { Grid, Box, CircularProgress, Typography, Button } from "@mui/material";
 import { axiosRequest } from "../components/api/api";
+import { useRouter } from "next/router";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 const productsEndpoint = `8005/overall_rating`;
@@ -10,6 +11,7 @@ const productsEndpoint = `8005/overall_rating`;
 const Dashboard = () => {
   const [searchValue, setSearchValue] = useState("");
   const [loader, setLoader] = useState(true);
+  const router = useRouter();
   const [overallRating, setOverallRating] = useState({
     proudctsName: [],
     proudctsQualityRating: [],
@@ -25,7 +27,7 @@ const Dashboard = () => {
     try {
       const response = await axiosRequest(
         "get",
-        productsEndpoint,
+        ///give router path here////
         undefined,
         undefined
       );
@@ -46,7 +48,7 @@ const Dashboard = () => {
       _overAllRating.proudctsOverallRating = response.data.map(
         (product) => product.overall_rating
       );
-      setOverallRating(_overAllRating);
+      //////////set state here//////////
       setLoader(false);
     } catch (error) {
       alert("Something went wrong please try again later.");
@@ -75,7 +77,7 @@ const Dashboard = () => {
       text: "Overall Rating",
       align: "left",
     },
-    colors: ["#FFB82C", "#00B65E", "#00CBCB", "#3F4CEC"],
+    colors: ["#00B65E", "#00CBCB", "#3F4CEC"],
     xaxis: {
       categories: overallRating.proudctsName,
       labels: {
@@ -158,7 +160,7 @@ const Dashboard = () => {
       size: 5,
     },
     title: {
-      text: "Product Quality",
+      text: "Product Availability",
       align: "left",
     },
     colors: ["#00B65E"],
@@ -178,10 +180,6 @@ const Dashboard = () => {
     },
   };
   const columnChartSeries = [
-    {
-      name: "Rating",
-      data: overallRating?.proudctsOverallRating,
-    },
     {
       name: "Qualtity",
       data: overallRating?.proudctsQualityRating,
@@ -203,17 +201,43 @@ const Dashboard = () => {
   ];
   const lineChartSeries2 = [
     {
-      name: "Product Quality",
-      data: overallRating?.proudctsQualityRating,
+      name: "Product Availability",
+      data: overallRating?.proudctsAvailabilityRating,
     },
   ];
   return (
     <>
-      <Header
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-        setStartQueryParam={() => {}}
-      />
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Grid item xs={12} sm={6}>
+          <Typography
+            variant="h6"
+            paddingBottom={1}
+            sx={{ fontWeight: "600", p: 2 }}
+          >
+            {"Dashboard"}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={6} marginTop={1}>
+          <Button
+            variant="contained"
+            sx={{
+              background: "green",
+              color: "white",
+              borderColor: "green",
+              "&.MuiButton-root:hover": {
+                background: "green",
+                color: "white",
+                borderColor: "green",
+              },
+            }}
+            onClick={() => {
+              router.push("/");
+            }}
+          >
+            Home
+          </Button>
+        </Grid>
+      </Box>
       {loader ? (
         <Box sx={{ display: "flex", justifyContent: "center", marginTop: 5 }}>
           <CircularProgress sx={{ color: "#00B65E" }} />
@@ -231,14 +255,14 @@ const Dashboard = () => {
             <Chart
               options={lineChartOptions1}
               series={lineChartSeries1}
-              type="line"
+              type="bar"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <Chart
               options={lineChartOptions2}
               series={lineChartSeries2}
-              type="line"
+              type="bar"
             />
           </Grid>
         </Grid>
